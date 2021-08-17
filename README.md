@@ -10,3 +10,6 @@ This game appears to be very poorly optimized (as indicated by the horrendous fr
 This is also still a very early prototype. I will be adding more UI and sprites as I keep working.
 
 Any advice would be appreciated :D
+
+## Fluff
+Please be advised, the code is also very poorly formatted and just be mindful of your own sanity as you read through my code :D
