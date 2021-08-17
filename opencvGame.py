@@ -113,7 +113,7 @@ def checkGrab(finger_tips, frame):
 
 # Player initialization----------------------------------------------------------------------------------------------
 # Sprite currently not used due to inconvenience 
-playerImg = pygame.image.load('shad.png')
+playerImg = pygame.image.load('test.png')
 playerSprite = pygame.transform.scale(playerImg, (int(playerImg.get_width()*0.5), int(playerImg.get_height()*0.5)))
 
 player1 = Player(10, 600-70, 0, -1, playerSprite, 70, 70)
