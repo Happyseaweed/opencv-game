@@ -9,6 +9,8 @@ Or, if you are already very cool, you probably have these libraries already inst
 This game appears to be very poorly optimized (as indicated by the horrendous frame rate when playing). I am still learning and searching for a solution to that problem.
 This is also still a very early prototype. I will be adding more UI and sprites as I keep working.
 
+The random obstacle generator can and should also be improved. Currently I am using a very simple function to do it, and it does not result in ideal obstacle positioning, but hey, it gets the idea down atleast.
+
 Any advice would be appreciated :D
 
 ## Fluff
