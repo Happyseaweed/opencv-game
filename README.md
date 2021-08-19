@@ -2,6 +2,9 @@
 A flappy bird style game where you can play with your hands! Without touching the keyboard! Or your mouse! It is kind of hardware demanding at the moment, so be cautious
 when you try it out. I will not be taking any responsibility for exploding laptops ;)
 
+## How to play
+Launch the game. Make sure your camera is facing you or your hand. Close all 5 fingers together to flap.
+
 ## About
 OpenCV, MediaPipe and Pygame are required to run this program, you can probably find how to download them on the internet.
 Or, if you are already very cool, you probably have these libraries already installed.
