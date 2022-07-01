@@ -16,5 +16,10 @@ The random obstacle generator can and should also be improved. Currently I am us
 
 Any advice would be appreciated :D
 
+## Things to work on
+1. A more efficient system for storing obstacles, possibly a linked list?
+2. How to increase frame rate? I think mediapipe is pretty demanding at the moment.
+3. Start/End screen
+
 ## Fluff
 Please be advised, the code is also very poorly formatted and just be mindful of your own sanity as you read through my code :D
