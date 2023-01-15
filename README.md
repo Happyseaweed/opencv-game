@@ -5,10 +5,13 @@ when you try it out. I will not be taking any responsibility for exploding lapto
 
 ---
 ![Screenshot1](/media/screenshot1.png "Start Page")
+
 ---
 ![Screenshot2](/media/screenshot2.png "Gameplay")
+
 ---
 ![Screenshot3](/media/screenshot3.png "End Page")
+
 ---
 
 ## How to play
