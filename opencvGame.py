@@ -15,10 +15,13 @@ SCREEN_WIDTH = 1080
 SCREEN_HEIGHT = 720
 OBSTACLE_HEIGHT = 220
 RUNNING = True
+STATE = 0   # 0 = start menu, 1 = game running, 2 = game over screen;
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 random.seed(5)
 obstacles = []
 score = 0
+hiscore = 0
+
 
 # Open CV Declarations
 mp_hands = mp.solutions.hands
@@ -134,7 +137,7 @@ def checkCollision(block, player): # Check if player collide with obstacle (Sort
         player.h
     )
 
-    return pygame.Rect.colliderect(playerRect, topRect) or pygame.Rect.colliderect(playerRect, topRect)
+    return pygame.Rect.colliderect(playerRect, topRect) or pygame.Rect.colliderect(playerRect, botRect)
 
 def generateObstacle(): # Randomly generate an obstacle
     random.seed(time.gmtime())                                  # Seed
@@ -182,6 +185,7 @@ def checkGrab(finger_tips, frame):
             return False
     return True
 
+
 # Player initialization----------------------------------------------------------------------------------------------
 
 # Creating player object and first obstacle.
@@ -191,78 +195,188 @@ obstacles.append(Obstacle(len(obstacles), SCREEN_WIDTH, 200, 50, player1.speed))
 # Main loop
 with mp_hands.Hands(min_detection_confidence=0.6, min_tracking_confidence=0.6) as hands:
     while RUNNING and capture.isOpened():
-        score+=1
-        screen.fill((255,255,255))
-        
-        ret, frame = capture.read()
-        
-        # Screen resizing, can be used depending on preference.
-        # SCALE_FACTOR = 1.5
-        # frame = cv.resize(frame, (int(frame.shape[1] * SCALE_FACTOR), int(frame.shape[0] * SCALE_FACTOR)))
-        
-        img = cv.cvtColor(cv.flip(frame, 1), cv.COLOR_BGR2RGB)
-        img.flags.writeable = False;
-
-        # Results from mediapipe hand recognition.
-        results = hands.process(img)
-        img = cv.cvtColor(img, cv.COLOR_RGB2BGR)
-        frame = cv.flip(frame, 1)
-
-        # Event checking.
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:       # Closing application
-                RUNNING = False
             
-            if event.type == pygame.KEYDOWN:    # Jump
-                if event.key == pygame.K_UP:
-                    player1.jump()
+        ret, frame = capture.read()
 
-        # Mediapipe looping through hand landmarks and finding finger tips.
-        if results.multi_hand_landmarks:
-            for hand_landmarks in results.multi_hand_landmarks:
-                # Creating list of finger tip locations
-                finger_tips = []
-                finger_tips.append(hand_landmarks.landmark[4])
-                finger_tips.append(hand_landmarks.landmark[8])
-                finger_tips.append(hand_landmarks.landmark[12])
-                finger_tips.append(hand_landmarks.landmark[16])
-                finger_tips.append(hand_landmarks.landmark[20])
+        if STATE == 0:
+            # Display menu screen
+            screen.fill((255, 255, 255))
+            
+            #Display game menu
+            font = pygame.font.SysFont('Corbel', 35)
+            font1 = pygame.font.SysFont('Corbel', 60)
+            
+            text_start = font.render('Start Game', True, (255, 255, 255))
+            text_quit = font.render('Quit', True, (255, 255, 255))
+            text_msg = font1.render("\"Just Remember, Don't Touch the Red Stuff\"", True, (0, 0, 0))
 
-                # Check if user is performing the grabbing motion.
-                if checkGrab(finger_tips, frame):
-                    player1.jump()
+            text_tut1 = font.render("Here's how to play:", True, (0, 0, 0))
+            text_tut2 = font.render("1. Make sure your camera is facing you.", True, (0, 0, 0))
+            text_tut3 = font.render("2. Make sure your palm is facing the camera.", True, (0, 0, 0))
+            text_tut4 = font.render("3. Make a \"pinch o' salt\" gesture with that hand.", True, (0, 0, 0))
+            text_tut5 = font.render("4. No matter what you do, don't touch the red stuff...", True, (0, 0, 0))
 
-        # Generating new obstacles
-        for cur_obs in obstacles:
-            # Flag is false if current obstacle has not passed 1/3 of screen from right.
-            if cur_obs.flag == False:
-                if cur_obs.posx < 2*SCREEN_WIDTH/3:
-                    generateObstacle()
-                    cur_obs.flag = True
-                    break
+            screen.blit(text_msg, (100, 100))
+            screen.blit(text_tut1, (50, 450))
+            screen.blit(text_tut2, (50, 490))
+            screen.blit(text_tut3, (50, 530))
+            screen.blit(text_tut4, (50, 570))
+            screen.blit(text_tut5, (50, 610))
 
-        # Updating obstacles
-        for blocks in obstacles:
-            blocks.update()
-            blocks.display()
+            pygame.draw.rect(screen, (100, 100, 100), (520, 280, 180, 60))
+            pygame.draw.rect(screen, (100, 100, 100), (520, 380, 180, 60))
 
-        # Checking collision between each obstacle and the player, can definitely be optimized!
-        for blocks in obstacles:
-            if checkCollision(blocks, player1):
-                print("Collision!")
-                print("Player: ", player1.height)
-                print("Block: ", blocks.posy)
-                RUNNING = False
+            screen.blit(text_start, (540, 300))
+            screen.blit(text_quit, (540, 400))
 
-        # Updating and displaying
-        player1.update()
-        player1.display()
-        display()
+            pygame.draw.rect(screen, (0, 0, 0), (800, 600, 300, 300))
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:       # Closing application
+                    RUNNING = False
+                if event.type == pygame.KEYDOWN:    # Pressing 'q' to quit the game.
+                    if (event.key == pygame.K_q):
+                        RUNNING = False
+                        break
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    cx, cy = pygame.mouse.get_pos()
+                    if cx >= 520 and cx <= 700:
+                        if cy <= 440 and cy >= 380:
+                            RUNNING = False
+                            break
+                        if cy <= 340 and cy >= 280:
+                            STATE = 1
+
+        elif STATE == 2:
+            # Display menu screen
+            screen.fill((255, 255, 255))
+            
+            #Display game menu
+            hiscore = max(hiscore, score)
+            font = pygame.font.SysFont('Corbel', 35)
+            font1 = pygame.font.SysFont('Corbel', 60)
+            text_start = font.render('Restart', True, (255, 255, 255))
+            text_quit = font.render('Quit', True, (255, 255, 255))
+            text_score = font.render("Distance: "+ str(score), True, (255, 255, 255))
+            text_hiscore = font.render("High Score : "+ str(hiscore), True, (255, 255, 255))
+            text_endmsg = font1.render('Oops, the red stuff is *NOT* your friend!', True, (0, 0, 0))
+
+            screen.blit(text_endmsg, (120, 100))
+
+            pygame.draw.rect(screen, (100, 100, 100), (520, 280, 180, 60))
+            pygame.draw.rect(screen, (100, 100, 100), (520, 380, 180, 60))
+
+            screen.blit(text_start, (540, 300))
+            screen.blit(text_quit, (540, 400))
+
+            pygame.draw.rect(screen, (100, 100, 100), (180, 280, 220, 60))
+            pygame.draw.rect(screen, (100, 100, 100), (180, 380, 220, 60))
+
+            screen.blit(text_hiscore, (200, 300))
+            screen.blit(text_score, (200, 400))
+
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:       # Closing application
+                    RUNNING = False
+                if event.type == pygame.KEYDOWN:    # Pressing 'q' to quit the game.
+                    if (event.key == pygame.K_q):
+                        RUNNING = False
+                        break
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    cx, cy = pygame.mouse.get_pos()
+                    if cx >= 520 and cx <= 700:
+                        if cy <= 440 and cy >= 380:
+                            RUNNING = False
+                            break
+                        if cy <= 340 and cy >= 280:
+                            player1 = Player(10, 600-70, 0, -3, None, 70, 70)
+                            obstacles.clear()
+                            score = 0
+                            random.seed(5)
+                            obstacles.append(Obstacle(len(obstacles), SCREEN_WIDTH, 200, 50, player1.speed))
+                            
+                            STATE = 1
+
+        elif STATE == 1:
+
+            score+=1
+            screen.fill((255,255,255))
+
+            img = cv.cvtColor(cv.flip(frame, 1), cv.COLOR_BGR2RGB)
+            img.flags.writeable = False
+
+            # Results from mediapipe hand recognition.
+            results = hands.process(img)
+            img = cv.cvtColor(img, cv.COLOR_RGB2BGR)
+            frame = cv.flip(frame, 1)
+
+            font = pygame.font.SysFont('Corbel', 35)
+            text_score = font.render("Distance: "+str(score), True, (255, 255, 255))
+            pygame.draw.rect(screen, (100, 100, 100), (180, 620, 220, 60))
+            screen.blit(text_score, (200, 640))
+
+            # Event checking.
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:       # Closing application
+                    RUNNING = False
+                
+                if event.type == pygame.KEYDOWN:    # Jump
+                    if event.key == pygame.K_UP:
+                        player1.jump()
+
+                if event.type == pygame.KEYDOWN:
+                    if (event.key == pygame.K_q):
+                        RUNNING = False
+                        break
+
+            # Mediapipe looping through hand landmarks and finding finger tips.
+            if results.multi_hand_landmarks:
+                for hand_landmarks in results.multi_hand_landmarks:
+                    # Creating list of finger tip locations
+                    finger_tips = []
+                    finger_tips.append(hand_landmarks.landmark[4])
+                    finger_tips.append(hand_landmarks.landmark[8])
+                    finger_tips.append(hand_landmarks.landmark[12])
+                    finger_tips.append(hand_landmarks.landmark[16])
+                    finger_tips.append(hand_landmarks.landmark[20])
+
+                    # Check if user is performing the grabbing motion.
+                    if checkGrab(finger_tips, frame):
+                        player1.jump()
+
+            # Generating new obstacles
+            for cur_obs in obstacles:
+                # Flag is false if current obstacle has not passed 1/3 of screen from right.
+                if cur_obs.flag == False:
+                    if cur_obs.posx < 2*SCREEN_WIDTH/3:
+                        generateObstacle()
+                        cur_obs.flag = True
+                        break
+
+            # Updating obstacles
+            for blocks in obstacles:
+                blocks.update()
+                blocks.display()
+
+            # Checking collision between each obstacle and the player, can definitely be optimized!
+            for blocks in obstacles:
+                if checkCollision(blocks, player1):
+                    print("Collision!")
+                    print("Player: ", player1.height)
+                    print("Block: ", blocks.posy)
+                    STATE = 2
+
+            # Updating and displaying
+            player1.update()
+            player1.display()
+            display()
+        
         pygame.display.update()
         mainClock.tick(120)
 
-        # If you wish to see yourself playing the game.
-        # cv.imshow('Video', frame)
+            # If you wish to see yourself playing the game.
+            # cv.imshow('Video', frame)
 
         # Quit statement, press 'q' to quit, can be changed.
         if cv.waitKey(10) & 0xFF == ord('q'):
