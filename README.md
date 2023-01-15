@@ -1,6 +1,8 @@
 # opencv-game
 A ~~flappy bird style~~ "Don't touch the red stuff" game where you can play with your hands! Without touching the keyboard! Or your mouse! It is kind of hardware demanding at the moment, so be cautious
 when you try it out. I will not be taking any responsibility for exploding laptops ;)
+(Details after sample images! :P)
+
 ---
 ![Screenshot1](/media/screenshot1.png "Start Page")
 ---
