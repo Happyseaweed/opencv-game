@@ -229,8 +229,6 @@ with mp_hands.Hands(min_detection_confidence=0.6, min_tracking_confidence=0.6) a
             screen.blit(text_start, (540, 300))
             screen.blit(text_quit, (540, 400))
 
-            pygame.draw.rect(screen, (0, 0, 0), (800, 600, 300, 300))
-
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:       # Closing application
                     RUNNING = False
