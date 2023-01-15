@@ -3,6 +3,8 @@ A ~~flappy bird style~~ "Don't touch the red stuff" game where you can play with
 when you try it out. I will not be taking any responsibility for exploding laptops ;)
 
 ![Screenshot1](/media/screenshot1.png "Start Page")
+![Screenshot2](/media/screenshot2.png "Gameplay")
+![Screenshot3](/media/screenshot3.png "End Page")
 
 ## How to play
 Make sure you have: pygame, opencv, mediapipe. To install these:
