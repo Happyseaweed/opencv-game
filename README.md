@@ -8,8 +8,11 @@ Make sure you have: pygame, opencv, mediapipe. To install these:
 pip3 install pygame
 ```
 For OpenCV: Visit the documentation for details on how to install: https://pypi.org/project/opencv-python/
+
 For MacOS Silicon, install the sillicon version: https://github.com/google/mediapipe/issues/3277
+
 For MacOS Intel, follow the documentation: https://google.github.io/mediapipe/getting_started/install.html
+
 For Windows, follow the documentation: https://google.github.io/mediapipe/getting_started/install.html
 
 Then, clone the repository and navigate to the folder and run:
