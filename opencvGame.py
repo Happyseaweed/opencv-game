@@ -217,17 +217,17 @@ with mp_hands.Hands(min_detection_confidence=0.6, min_tracking_confidence=0.6) a
             text_tut5 = font.render("4. No matter what you do, don't touch the red stuff...", True, (0, 0, 0))
 
             screen.blit(text_msg, (100, 100))
-            screen.blit(text_tut1, (50, 450))
-            screen.blit(text_tut2, (50, 490))
-            screen.blit(text_tut3, (50, 530))
-            screen.blit(text_tut4, (50, 570))
-            screen.blit(text_tut5, (50, 610))
+            screen.blit(text_tut1, (100, 460))
+            screen.blit(text_tut2, (100, 500))
+            screen.blit(text_tut3, (100, 540))
+            screen.blit(text_tut4, (100, 580))
+            screen.blit(text_tut5, (100, 620))
 
-            pygame.draw.rect(screen, (100, 100, 100), (520, 280, 180, 60))
-            pygame.draw.rect(screen, (100, 100, 100), (520, 380, 180, 60))
+            pygame.draw.rect(screen, (100, 100, 100), (450, 250, 180, 60))
+            pygame.draw.rect(screen, (100, 100, 100), (450, 350, 180, 60))
 
-            screen.blit(text_start, (540, 300))
-            screen.blit(text_quit, (540, 400))
+            screen.blit(text_start, (475, 270))
+            screen.blit(text_quit, (510, 370))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:       # Closing application
@@ -238,12 +238,12 @@ with mp_hands.Hands(min_detection_confidence=0.6, min_tracking_confidence=0.6) a
                         break
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     cx, cy = pygame.mouse.get_pos()
-                    if cx >= 520 and cx <= 700:
-                        if cy <= 440 and cy >= 380:
+                    if cx >= 450 and cx <= 630:
+                        if cy <= 310 and cy >= 250:
+                            STATE = 1
+                        if cy <= 410 and cy >= 350:
                             RUNNING = False
                             break
-                        if cy <= 340 and cy >= 280:
-                            STATE = 1
 
         elif STATE == 2:
             # Display menu screen
@@ -256,22 +256,22 @@ with mp_hands.Hands(min_detection_confidence=0.6, min_tracking_confidence=0.6) a
             text_start = font.render('Restart', True, (255, 255, 255))
             text_quit = font.render('Quit', True, (255, 255, 255))
             text_score = font.render("Distance: "+ str(score), True, (255, 255, 255))
-            text_hiscore = font.render("High Score : "+ str(hiscore), True, (255, 255, 255))
+            text_hiscore = font.render("Hi-Score: "+ str(hiscore), True, (255, 255, 255))
             text_endmsg = font1.render('Oops, the red stuff is *NOT* your friend!', True, (0, 0, 0))
 
             screen.blit(text_endmsg, (120, 100))
 
-            pygame.draw.rect(screen, (100, 100, 100), (520, 280, 180, 60))
-            pygame.draw.rect(screen, (100, 100, 100), (520, 380, 180, 60))
+            pygame.draw.rect(screen, (100, 100, 100), (430, 400, 220, 60))
+            pygame.draw.rect(screen, (100, 100, 100), (430, 500, 220, 60))
 
-            screen.blit(text_start, (540, 300))
-            screen.blit(text_quit, (540, 400))
+            screen.blit(text_start, (495, 420))
+            screen.blit(text_quit, (510, 520))
 
-            pygame.draw.rect(screen, (100, 100, 100), (180, 280, 220, 60))
-            pygame.draw.rect(screen, (100, 100, 100), (180, 380, 220, 60))
+            pygame.draw.rect(screen, (100, 100, 100), (430, 200, 220, 60))
+            pygame.draw.rect(screen, (100, 100, 100), (430, 300, 220, 60))
 
-            screen.blit(text_hiscore, (200, 300))
-            screen.blit(text_score, (200, 400))
+            screen.blit(text_hiscore, (450, 220))
+            screen.blit(text_score, (450, 320))
 
 
             for event in pygame.event.get():
@@ -283,11 +283,11 @@ with mp_hands.Hands(min_detection_confidence=0.6, min_tracking_confidence=0.6) a
                         break
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     cx, cy = pygame.mouse.get_pos()
-                    if cx >= 520 and cx <= 700:
-                        if cy <= 440 and cy >= 380:
+                    if cx >= 430 and cx <= 650:
+                        if cy <= 560 and cy >= 500:
                             RUNNING = False
                             break
-                        if cy <= 340 and cy >= 280:
+                        if cy <= 460 and cy >= 400:
                             player1 = Player(10, 600-70, 0, -3, None, 70, 70)
                             obstacles.clear()
                             score = 0
@@ -373,8 +373,8 @@ with mp_hands.Hands(min_detection_confidence=0.6, min_tracking_confidence=0.6) a
         pygame.display.update()
         mainClock.tick(120)
 
-            # If you wish to see yourself playing the game.
-            # cv.imshow('Video', frame)
+        # If you wish to see yourself playing the game.
+        #cv.imshow('Video', frame)
 
         # Quit statement, press 'q' to quit, can be changed.
         if cv.waitKey(10) & 0xFF == ord('q'):
