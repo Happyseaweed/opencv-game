@@ -3,6 +3,22 @@ A flappy bird style game where you can play with your hands! Without touching th
 when you try it out. I will not be taking any responsibility for exploding laptops ;)
 
 ## How to play
+Make sure you have: pygame, opencv, mediapipe. To install these:
+```
+pip3 install pygame
+```
+For OpenCV: Visit the documentation for details on how to install: https://pypi.org/project/opencv-python/
+
+For MacOS Silicon, install the sillicon version: https://github.com/google/mediapipe/issues/3277
+
+For MacOS Intel, follow the documentation: https://google.github.io/mediapipe/getting_started/install.html
+
+For Windows, follow the documentation: https://google.github.io/mediapipe/getting_started/install.html
+
+Then, clone the repository and navigate to the folder and run:
+```
+python3 opencvGame.py
+```
 Launch the game. Make sure your camera is facing you or your hand. Close all 5 fingers together to flap.
 
 ## About
